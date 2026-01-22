@@ -13,24 +13,43 @@ interface Todo {
   completed: boolean;
 }
 
+let id = 0;
+
 export const TasksApp = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [inputValue, setInputValue] = useState("");
 
   const addTodo = () => {
-    console.log("Agregar tarea", inputValue);
+    if (!inputValue) return;
+
+    const newTodo: Todo = { id: id, text: inputValue.trim(), completed: false };
+
+    setTodos((prev) => [...prev, newTodo]);
+    id++;
   };
 
   const toggleTodo = (id: number) => {
-    console.log("Cambiar de true a false", id);
+    const todoToUpdate = todos.find((todo) => todo.id === id);
+    if (!todoToUpdate) return;
+
+    setTodos((prev) =>
+      prev.map((prevTodo) => {
+        if (prevTodo.id === todoToUpdate.id)
+          return { ...prevTodo, completed: !todoToUpdate.completed };
+        return prevTodo;
+      }),
+    );
   };
 
   const deleteTodo = (id: number) => {
-    console.log("Eliminar tarea", id);
+    const todoToDelete = todos.find((todo) => todo.id === id);
+    if (!todoToDelete) return;
+
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    console.log("Presiono enter");
+    if (e.key === "Enter" && inputValue) addTodo();
   };
 
   const completedCount = todos.filter((todo) => todo.completed).length;
