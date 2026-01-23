@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 
 import { Plus, Trash2, Check } from "lucide-react";
 
@@ -6,54 +6,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
-}
-
-let id = 0;
+import { getTasksInitialState, taskReducer } from "./reducer/tasksReducer";
 
 export const TasksApp = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const [state, dispatch] = useReducer(taskReducer, getTasksInitialState());
 
   const addTodo = () => {
     if (!inputValue) return;
 
-    const newTodo: Todo = { id: id, text: inputValue.trim(), completed: false };
-
-    setTodos((prev) => [...prev, newTodo]);
-    id++;
+    dispatch({ type: "ADD_TODO", payload: inputValue });
   };
 
   const toggleTodo = (id: number) => {
-    const todoToUpdate = todos.find((todo) => todo.id === id);
-    if (!todoToUpdate) return;
-
-    setTodos((prev) =>
-      prev.map((prevTodo) => {
-        if (prevTodo.id === todoToUpdate.id)
-          return { ...prevTodo, completed: !todoToUpdate.completed };
-        return prevTodo;
-      }),
-    );
+    dispatch({ type: "TOGGLE_TODO", payload: id });
   };
 
   const deleteTodo = (id: number) => {
-    const todoToDelete = todos.find((todo) => todo.id === id);
-    if (!todoToDelete) return;
-
-    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+    dispatch({ type: "DELETE_TODO", payload: id });
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && inputValue) addTodo();
   };
 
-  const completedCount = todos.filter((todo) => todo.completed).length;
-  const totalCount = todos.length;
+  const { todos, completed: completedCount, length: totalCount } = state;
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 p-4">
