@@ -20,5 +20,69 @@ export const taskReducer = (
   state: TaskState,
   action: TaskAction,
 ): TaskState => {
-  return state;
+  switch (action.type) {
+    case "ADD_TODO": {
+      const newTodo: Todo = {
+        id: Date.now(),
+        text: action.payload,
+        completed: false,
+      };
+
+      return {
+        ...state,
+        length: state.todos.length + 1,
+        todos: [...state.todos, newTodo],
+        pending: state.pending + 1,
+      };
+    }
+    case "DELETE_TODO": {
+      const todoToDelete = state.todos.find(
+        (todo) => todo.id === action.payload,
+      );
+
+      const todoToDeleteIsCompleted = todoToDelete?.completed;
+
+      const updatedTodos = state.todos.filter(
+        (todo) => todo.id !== action.payload,
+      );
+
+      return {
+        ...state,
+        length: updatedTodos.length,
+        todos: updatedTodos,
+        completed: todoToDeleteIsCompleted
+          ? state.completed - 1
+          : state.completed,
+        pending: todoToDeleteIsCompleted ? state.pending : state.pending - 1,
+      };
+    }
+    case "TOGGLE_TODO": {
+      const todoToToggle = state.todos.find(
+        (todo) => todo.id === action.payload,
+      );
+
+      const todoToToggleIsCompleted = todoToToggle?.completed;
+
+      const updatedTodos = state.todos.map((todo) => {
+        if (todo.id === action.payload) {
+          return { ...todo, completed: !todo.completed };
+        }
+
+        return todo;
+      });
+
+      return {
+        ...state,
+        completed: todoToToggleIsCompleted
+          ? state.completed - 1
+          : state.completed + 1,
+        pending: todoToToggleIsCompleted
+          ? state.pending + 1
+          : state.pending - 1,
+        todos: updatedTodos,
+      };
+    }
+    default:
+      return state;
+  }
 };
