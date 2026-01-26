@@ -2,6 +2,7 @@
 // Es necesario componentes de Shadcn/ui
 // https://ui.shadcn.com/docs/installation/vite
 
+// ! Practica: Primero resolverlo usando solo useState, después con useReducer
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,51 +61,11 @@ export const ScrambleWords = () => {
   const handleGuessSubmit = (e: React.FormEvent) => {
     // Previene el refresh de la página
     e.preventDefault();
-
-    if (guess === currentWord) {
-      const updatedWords = words.slice(1);
-      confetti({
-        particleCount: 100,
-        spread: 120,
-        origin: { y: 0.6 },
-      });
-
-      setPoints((prev) => prev + 1);
-      setGuess("");
-      setWords(updatedWords);
-      setCurrentWord(updatedWords[0]);
-      setScrambledWord(scrambleWord(updatedWords[0]));
-      return;
-    }
-
-    if (errorCounter + 1 >= maxAllowErrors) setIsGameOver(true);
-    setErrorCounter((prev) => prev + 1);
-    setGuess("");
   };
 
-  const handleSkip = () => {
-    const updatedWords = words.slice(1);
+  const handleSkip = () => {};
 
-    setSkipCounter((prev) => prev + 1);
-    setWords(updatedWords);
-    setCurrentWord(updatedWords[0]);
-    setScrambledWord(scrambleWord(updatedWords[0]));
-    setGuess("");
-  };
-
-  const handlePlayAgain = () => {
-    const newArray = shuffleArray(GAME_WORDS);
-    setPoints(0);
-    setErrorCounter(0);
-    setGuess("");
-    setWords(newArray);
-    setCurrentWord(newArray[0]);
-    setIsGameOver(false);
-    setSkipCounter(0);
-    setScrambledWord(scrambleWord(newArray[0]));
-    setMaxSkips(3);
-    setMaxAllowErrors(3);
-  };
+  const handlePlayAgain = () => {};
 
   // Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
   if (words.length === 0) {

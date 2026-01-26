@@ -8,7 +8,8 @@ import { createRoot } from "react-dom/client";
 // import { PokemonPage } from "./03-examples/PokemonPage";
 // import { FocusScreen } from "./04-useRef/FocusScreen";
 // import { TasksApp } from "./05-useReducer/TaskApp";
-import { ScrambleWords } from "./05-useReducer/ScrambleWords";
+// import { ScrambleWords } from "./05-useReducer/ScrambleWords";
+import { ScrambleWordsWithReducer } from "./05-useReducer/ScrambleWordsWithReducer";
 
 import "./index.css";
 
@@ -21,6 +22,7 @@ createRoot(document.getElementById("root")!).render(
     {/* <PokemonPage /> */}
     {/* <FocusScreen /> */}
     {/* <TasksApp /> */}
-    <ScrambleWords />
+    {/* <ScrambleWords /> */}
+    <ScrambleWordsWithReducer />
   </StrictMode>,
 );
