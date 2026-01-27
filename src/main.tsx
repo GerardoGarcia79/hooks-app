@@ -9,7 +9,8 @@ import { createRoot } from "react-dom/client";
 // import { FocusScreen } from "./04-useRef/FocusScreen";
 // import { TasksApp } from "./05-useReducer/TaskApp";
 // import { ScrambleWords } from "./05-useReducer/ScrambleWords";
-import { ScrambleWordsWithReducer } from "./05-useReducer/ScrambleWordsWithReducer";
+// import { ScrambleWordsWithReducer } from "./05-useReducer/ScrambleWordsWithReducer";
+import { InstagromApp } from "./07-useOptimistic/InstragromApp";
 
 import "./index.css";
 
@@ -23,6 +24,7 @@ createRoot(document.getElementById("root")!).render(
     {/* <FocusScreen /> */}
     {/* <TasksApp /> */}
     {/* <ScrambleWords /> */}
-    <ScrambleWordsWithReducer />
+    {/* <ScrambleWordsWithReducer /> */}
+    <InstagromApp />
   </StrictMode>,
 );
