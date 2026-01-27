@@ -15,6 +15,7 @@ import { Toaster } from "sonner";
 import { ClientInformation } from "./08-use-suspense/ClientInformation";
 
 import "./index.css";
+import { getUserAction } from "./08-use-suspense/api/get-user.action";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -36,7 +37,7 @@ createRoot(document.getElementById("root")!).render(
         </div>
       }
     >
-      <ClientInformation />
+      <ClientInformation getUser={getUserAction(1000)} />
     </Suspense>
   </StrictMode>,
 );

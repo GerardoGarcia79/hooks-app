@@ -1,10 +1,12 @@
-import { use } from "react";
-import { getUserAction } from "./api/get-user.action";
+import { use, type Usable } from "react";
+import { type User } from "./api/get-user.action";
 
-const userPromise = getUserAction(1);
+interface Props {
+  getUser: Usable<User>;
+}
 
-export const ClientInformation = () => {
-  const user = use(userPromise);
+export const ClientInformation = ({ getUser }: Props) => {
+  const user = use(getUser);
 
   return (
     <div className="bg-gradient flex flex-col gap-4">
