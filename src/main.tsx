@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "sonner";
 
@@ -11,7 +11,8 @@ import { Toaster } from "sonner";
 // import { TasksApp } from "./05-useReducer/TaskApp";
 // import { ScrambleWords } from "./05-useReducer/ScrambleWords";
 // import { ScrambleWordsWithReducer } from "./05-useReducer/ScrambleWordsWithReducer";
-import { InstagromApp } from "./07-useOptimistic/InstragromApp";
+// import { InstagromApp } from "./07-useOptimistic/InstragromApp";
+import { ClientInformation } from "./08-use-suspense/ClientInformation";
 
 import "./index.css";
 
@@ -27,6 +28,15 @@ createRoot(document.getElementById("root")!).render(
     {/* <TasksApp /> */}
     {/* <ScrambleWords /> */}
     {/* <ScrambleWordsWithReducer /> */}
-    <InstagromApp />
+    {/* <InstagromApp /> */}
+    <Suspense
+      fallback={
+        <div className="bg-gradient flex flex-col">
+          <h1 className="text-2xl">Loading client information...</h1>
+        </div>
+      }
+    >
+      <ClientInformation />
+    </Suspense>
   </StrictMode>,
 );
