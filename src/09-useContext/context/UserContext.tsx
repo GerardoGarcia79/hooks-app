@@ -28,10 +28,14 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     const user = users.find((user) => user.id === userId);
     setAuthStatus("authenticated");
     if (!user) {
+      console.log(`User not found ${userId}`);
+      setAuthStatus("not-authenticated");
       setUser(null);
-    } else {
-      setUser(user);
+      return false;
     }
+
+    setUser(user);
+    setAuthStatus("authenticated");
     return true;
   };
 
