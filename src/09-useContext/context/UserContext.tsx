@@ -1,4 +1,10 @@
-import { createContext, useState, type PropsWithChildren } from "react";
+import {
+  createContext,
+  useEffect,
+  useEffectEvent,
+  useState,
+  type PropsWithChildren,
+} from "react";
 import { users, type User } from "../data/user-mock-data";
 
 // interface Props {
@@ -36,13 +42,29 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
 
     setUser(user);
     setAuthStatus("authenticated");
+    localStorage.setItem("userId", userId.toString());
     return true;
   };
 
   const handleLogout = () => {
     setAuthStatus("not-authenticated");
     setUser(null);
+    localStorage.removeItem("userId");
   };
+
+  const handleLoginEffectEvent = useEffectEvent(handleLogin);
+  const handleLogoutEffectEvent = useEffectEvent(handleLogout);
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("userId");
+
+    if (storedUserId) {
+      handleLoginEffectEvent(+storedUserId);
+      return;
+    }
+
+    handleLogoutEffectEvent();
+  }, []);
 
   return (
     <UserContext
